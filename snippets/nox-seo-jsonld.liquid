@@ -1,0 +1,105 @@
+{%- liquid
+  assign site_name = shop.name | escape
+  assign current_url = canonical_url
+  assign logo_url = 'logo.png' | asset_url
+-%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "{{ shop.url }}/#organization",
+  "name": "{{ site_name }}",
+  "url": "{{ shop.url }}",
+  "logo": "{{ logo_url }}",
+  "sameAs": []
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "{{ shop.url }}/#website",
+  "url": "{{ shop.url }}",
+  "name": "{{ site_name }}",
+  "publisher": {
+    "@id": "{{ shop.url }}/#organization"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ shop.url }}/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "{{ current_url }}#webpage",
+  "url": "{{ current_url }}",
+  "name": {{ page_title | json }},
+  "description": {{ page_description | default: shop.description | json }},
+  "isPartOf": {
+    "@id": "{{ shop.url }}/#website"
+  }
+}
+</script>
+
+{%- if request.page_type == 'product' and product -%}
+  <script type="application/ld+json">
+    {{ product | structured_data }}
+  </script>
+{%- endif -%}
+
+{%- if request.page_type == 'article' and article -%}
+  <script type="application/ld+json">
+    {{ article | structured_data }}
+  </script>
+{%- endif -%}
+
+{%- if request.page_type == 'collection' and collection -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "{{ current_url }}#collection",
+  "url": "{{ current_url }}",
+  "name": {{ collection.title | json }},
+  "description": {{ collection.description | strip_html | default: page_description | json }},
+  "isPartOf": {
+    "@id": "{{ shop.url }}/#website"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {%- for product in collection.products limit: 12 -%}
+        {
+          "@type": "ListItem",
+          "position": {{ forloop.index }},
+          "url": "{{ shop.url }}{{ product.url }}",
+          "name": {{ product.title | json }}
+        }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]
+  }
+}
+</script>
+{%- endif -%}
+
+{%- if request.page_type == 'blog' and blog -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "@id": "{{ current_url }}#blog",
+  "url": "{{ current_url }}",
+  "name": {{ blog.title | json }},
+  "isPartOf": {
+    "@id": "{{ shop.url }}/#website"
+  }
+}
+</script>
+{%- endif -%}

@@ -1,0 +1,59 @@
+<section class="nox-products-section full-width">
+  <div class="nox-section-container">
+    <div class="nox-section-heading nox-heading-row">
+      <div>
+        <p>Featured bedding</p>
+        <h2>Organic cotton sheets made for better sleep.</h2>
+      </div>
+
+      <a href="{{ routes.all_products_collection_url }}" class="nox-text-link">View all products</a>
+    </div>
+
+    {% assign collection_handle = section.settings.collection %}
+    {% assign selected_collection = collections[collection_handle] %}
+
+    <div class="nox-product-grid">
+      {% if selected_collection.products.size > 0 %}
+        {% for product in selected_collection.products limit: 4 %}
+          <a href="{{ product.url }}" class="nox-product-card">
+            <div class="nox-product-image">
+              {% if product.featured_image %}
+                {{ product.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: product.title }}
+              {% else %}
+                <div class="nox-product-placeholder"></div>
+              {% endif %}
+            </div>
+
+            <div class="nox-product-info">
+              <h3>{{ product.title }}</h3>
+              <p>{{ product.price | money }}</p>
+            </div>
+          </a>
+        {% endfor %}
+      {% else %}
+        <div class="nox-empty-products">
+          <h3>Add products to your selected collection.</h3>
+          <p>Choose a collection in the theme editor to show products here.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nox Featured Products",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nox Featured Products"
+    }
+  ]
+}
+{% endschema %}

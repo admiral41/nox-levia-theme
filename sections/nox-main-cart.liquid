@@ -1,0 +1,62 @@
+<section class="nox-cart-page full-width">
+  <div class="nox-section-container">
+    <div class="nox-section-heading">
+      <p>Your Cart</p>
+      <h1>Shopping cart</h1>
+    </div>
+
+    {% if cart.item_count > 0 %}
+      <form action="{{ routes.cart_url }}" method="post" class="nox-cart-form">
+        <div class="nox-cart-items">
+          {% for item in cart.items %}
+            <div class="nox-cart-item">
+              <a href="{{ item.url }}" class="nox-cart-image">
+                {% if item.image %}
+                  {{ item.image | image_url: width: 220 | image_tag: loading: 'lazy', alt: item.product.title }}
+                {% endif %}
+              </a>
+
+              <div class="nox-cart-details">
+                <a href="{{ item.url }}">{{ item.product.title }}</a>
+                <span>{{ item.final_line_price | money }}</span>
+
+                <input
+                  type="number"
+                  name="updates[]"
+                  value="{{ item.quantity }}"
+                  min="0"
+                  aria-label="Quantity for {{ item.product.title }}"
+                >
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="nox-cart-summary">
+          <h2>Order summary</h2>
+          <p>Subtotal: <strong>{{ cart.total_price | money }}</strong></p>
+          <button type="submit" name="update">Update cart</button>
+          <button type="submit" name="checkout" class="nox-checkout-btn">Checkout</button>
+        </div>
+      </form>
+    {% else %}
+      <div class="nox-empty-products">
+        <h2>Your cart is empty.</h2>
+        <p>Explore organic cotton sheets and bedding sets for Canadian homes.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="nox-hero-btn nox-hero-btn-primary">Shop Products</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nox Main Cart",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nox Main Cart"
+    }
+  ]
+}
+{% endschema %}

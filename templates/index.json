@@ -1,0 +1,31 @@
+{
+  "sections": {
+    "hero": {
+      "type": "nox-hero",
+      "settings": {}
+    },
+    "categories": {
+      "type": "nox-categories",
+      "settings": {}
+    },
+    "featured_products": {
+      "type": "nox-featured-products",
+      "settings": {}
+    },
+    "blog_preview": {
+      "type": "nox-blog-preview",
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "nox-newsletter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "categories",
+    "featured_products",
+    "blog_preview",
+    "newsletter"
+  ]
+}

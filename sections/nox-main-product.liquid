@@ -1,0 +1,103 @@
+<section class="nox-product-page full-width">
+  {% render 'nox-breadcrumbs' %}
+
+  <div class="nox-product-layout">
+    <div class="nox-product-gallery">
+      {% if product.featured_image %}
+        {{ product.featured_image | image_url: width: 1200 | image_tag: loading: 'eager', alt: product.title }}
+      {% endif %}
+
+      {% if product.images.size > 1 %}
+        <div class="nox-product-thumbs">
+          {% for image in product.images limit: 4 %}
+            {{ image | image_url: width: 240 | image_tag: loading: 'lazy', alt: product.title }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="nox-product-summary">
+      <p class="nox-product-eyebrow">Organic Cotton Bedding Canada</p>
+
+      <h1>{{ product.title }}</h1>
+
+      <div class="nox-product-price">
+        {{ product.selected_or_first_available_variant.price | money }}
+      </div>
+
+      {% if product.description != blank %}
+        <div class="nox-product-description">
+          {{ product.description }}
+        </div>
+      {% endif %}
+
+      {% form 'product', product, class: 'nox-product-form' %}
+        <input
+          type="hidden"
+          name="id"
+          value="{{ product.selected_or_first_available_variant.id }}"
+        >
+
+        <label class="nox-quantity-label" for="Quantity-{{ section.id }}">
+          Quantity
+        </label>
+
+        <input
+          id="Quantity-{{ section.id }}"
+          class="nox-quantity-input"
+          type="number"
+          name="quantity"
+          value="1"
+          min="1"
+        >
+
+        <button
+          type="submit"
+          name="add"
+          class="nox-add-to-cart"
+          {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+        >
+          {% if product.selected_or_first_available_variant.available %}
+            Add to Cart
+          {% else %}
+            Sold Out
+          {% endif %}
+        </button>
+      {% endform %}
+
+      <div class="nox-product-trust">
+        <div>
+          <strong>100% Organic Cotton</strong>
+          <span>Soft, breathable, and naturally comfortable.</span>
+        </div>
+
+        <div>
+          <strong>Ships Across Canada</strong>
+          <span>Made for Canadian homes and everyday comfort.</span>
+        </div>
+
+        <div>
+          <strong>Easy 30-Day Returns</strong>
+          <span>Simple support if it is not the right fit.</span>
+        </div>
+      </div>
+
+      <div class="nox-product-links">
+        <a href="{{ routes.root_url }}blogs/news/how-to-wash-organic-cotton-sheets">How to wash organic cotton sheets</a>
+        <a href="{{ routes.root_url }}pages/about-us">Why choose Nox Levia?</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nox Main Product",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nox Main Product"
+    }
+  ]
+}
+{% endschema %}

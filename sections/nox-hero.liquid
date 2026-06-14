@@ -1,0 +1,56 @@
+<section class="nox-hero-section full-width" aria-label="Nox Levia organic cotton bedding hero">
+  <picture class="nox-hero-bg">
+    <source
+      media="(max-width: 749px)"
+      srcset="{{ 'hero-mobile.png' | asset_url }}"
+    >
+
+    <img
+      src="{{ 'hero-desktop.png' | asset_url }}"
+      alt="Organic cotton bed sheets and bedding styled in a calm modern bedroom"
+      width="1920"
+      height="850"
+      loading="eager"
+    >
+  </picture>
+
+  <div class="nox-hero-shade"></div>
+
+  <div class="nox-hero-inner">
+    <div class="nox-hero-content">
+      <p class="nox-hero-eyebrow">
+        Organic Cotton Bedding Canada
+      </p>
+
+      <h1>
+        Organic cotton sheets for better sleep in Canada.
+      </h1>
+
+      <p class="nox-hero-text">
+        Soft, breathable bedding and sheet sets designed for calm bedrooms, everyday comfort, and natural rest.
+      </p>
+
+      <div class="nox-hero-actions">
+        <a href="{{ routes.all_products_collection_url }}" class="nox-hero-btn nox-hero-btn-primary">
+          Shop Bedding
+        </a>
+
+        <a href="{{ routes.collections_url }}/bed-sheets" class="nox-hero-btn nox-hero-btn-secondary">
+          Shop Bed Sheets
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nox Hero",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nox Hero"
+    }
+  ]
+}
+{% endschema %}

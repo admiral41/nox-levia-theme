@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "nox-main-collection",
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "nox-newsletter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "newsletter"
+  ]
+}

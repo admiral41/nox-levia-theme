@@ -1,0 +1,31 @@
+<section class="nox-newsletter-section full-width">
+  <div class="nox-newsletter">
+    <div>
+      <p>Join Nox Levia</p>
+      <h2>Get bedding care tips, product updates, and Canadian offers.</h2>
+    </div>
+
+    {% form 'customer', class: 'nox-newsletter-form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input
+        type="email"
+        name="contact[email]"
+        placeholder="Enter your email"
+        required
+      >
+      <button type="submit">Subscribe</button>
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nox Newsletter",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nox Newsletter"
+    }
+  ]
+}
+{% endschema %}

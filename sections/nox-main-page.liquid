@@ -1,0 +1,57 @@
+<section class="nox-page full-width">
+  {% render 'nox-breadcrumbs' %}
+
+  <div class="nox-page-hero">
+    <div class="nox-page-hero-inner nox-reveal">
+      <p class="nox-page-eyebrow">Nox Levia Canada</p>
+      <h1>{{ page.title }}</h1>
+      <p>
+        Organic cotton bedding designed for calm bedrooms, soft sleep, and everyday comfort in Canadian homes.
+      </p>
+    </div>
+  </div>
+
+  <div class="nox-page-container">
+    <div class="nox-page-content nox-reveal">
+      {{ page.content }}
+    </div>
+
+    <div class="nox-page-values">
+      <div class="nox-page-value nox-reveal">
+        <span>01</span>
+        <h2>Soft by nature</h2>
+        <p>Organic cotton bedding chosen for breathable comfort and a naturally gentle feel.</p>
+      </div>
+
+      <div class="nox-page-value nox-reveal">
+        <span>02</span>
+        <h2>Calm design</h2>
+        <p>Simple colours, timeless textures, and bedding that makes your bedroom feel peaceful.</p>
+      </div>
+
+      <div class="nox-page-value nox-reveal">
+        <span>03</span>
+        <h2>Made for Canada</h2>
+        <p>Comfortable bedding essentials designed for Canadian homes and changing seasons.</p>
+      </div>
+    </div>
+
+    <div class="nox-page-links nox-reveal">
+      <a href="{{ routes.all_products_collection_url }}">Shop organic cotton bedding</a>
+      <a href="{{ routes.collections_url }}/bed-sheets">Explore bed sheets</a>
+      <a href="{{ routes.root_url }}blogs/news">Read bedding guides</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nox Main Page",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nox Main Page"
+    }
+  ]
+}
+{% endschema %}

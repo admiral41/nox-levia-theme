@@ -1,0 +1,69 @@
+<section class="nox-search-page full-width">
+  <div class="nox-section-container">
+    <div class="nox-section-heading">
+      <p>Search Nox Levia</p>
+      <h1>Search organic cotton bedding</h1>
+    </div>
+
+    <form action="{{ routes.search_url }}" method="get" role="search" class="nox-search-page-form">
+      <input
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="Search sheets, bedding sets, pillowcases..."
+      >
+      <button type="submit">Search</button>
+    </form>
+
+    {% if search.performed %}
+      <div class="nox-search-results">
+        {% if search.results_count > 0 %}
+          <p class="nox-search-count">
+            {{ search.results_count }} result{% unless search.results_count == 1 %}s{% endunless %} for “{{ search.terms }}”
+          </p>
+
+          <div class="nox-product-grid">
+            {% for item in search.results %}
+              {% if item.object_type == 'product' %}
+                <a href="{{ item.url }}" class="nox-product-card">
+                  <div class="nox-product-image">
+                    {% if item.featured_image %}
+                      {{ item.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: item.title }}
+                    {% endif %}
+                  </div>
+
+                  <div class="nox-product-info">
+                    <h2>{{ item.title }}</h2>
+                    <p>{{ item.price | money }}</p>
+                  </div>
+                </a>
+              {% else %}
+                <a href="{{ item.url }}" class="nox-result-card">
+                  <h2>{{ item.title }}</h2>
+                  <p>{{ item.content | strip_html | truncate: 140 }}</p>
+                </a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="nox-empty-products">
+            <h2>No results found.</h2>
+            <p>Try searching for “organic cotton sheets”, “bed sheets”, or “sheet sets”.</p>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nox Main Search",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nox Main Search"
+    }
+  ]
+}
+{% endschema %}

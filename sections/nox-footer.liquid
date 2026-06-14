@@ -1,0 +1,54 @@
+<footer class="nox-footer full-width">
+  <div class="nox-footer-inner">
+    <div class="nox-footer-brand">
+      <a href="{{ routes.root_url }}" class="nox-footer-logo">
+        <img src="{{ 'logo.png' | asset_url }}" alt="Nox Levia organic cotton bedding Canada" width="160" height="70" loading="lazy">
+      </a>
+
+      <p>
+        Premium organic cotton sheets and bedding essentials designed for calm, comfortable Canadian homes.
+      </p>
+    </div>
+
+    <div class="nox-footer-column">
+      <h3>Shop</h3>
+      <a href="{{ routes.all_products_collection_url }}">All Products</a>
+      <a href="{{ routes.collections_url }}/sheet-sets">Sheet Sets</a>
+      <a href="{{ routes.collections_url }}/bed-sheets">Bed Sheets</a>
+      <a href="{{ routes.collections_url }}/pillowcases">Pillowcases</a>
+    </div>
+
+    <div class="nox-footer-column">
+        <h3>Company</h3>
+        <a href="{{ routes.root_url }}pages/about-us">About Us</a>
+        <a href="{{ routes.root_url }}pages/our-story">Our Story</a>
+        <a href="{{ routes.root_url }}blogs/news">Blog</a>
+        <a href="{{ routes.root_url }}pages/contact">Contact</a>
+    </div>
+
+    <div class="nox-footer-column">
+        <h3>Support</h3>
+        <a href="{{ routes.root_url }}policies/shipping-policy">Shipping Policy</a>
+        <a href="{{ routes.root_url }}policies/refund-policy">Returns & Refunds</a>
+        <a href="{{ routes.root_url }}policies/privacy-policy">Privacy Policy</a>
+        <a href="{{ routes.root_url }}policies/terms-of-service">Terms of Service</a>
+    </div>
+  </div>
+
+  <div class="nox-footer-bottom">
+    <p>© {{ 'now' | date: '%Y' }} Nox Levia. All rights reserved.</p>
+    <p>Organic cotton bedding for Canada.</p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Nox Footer",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nox Footer"
+    }
+  ]
+}
+{% endschema %}

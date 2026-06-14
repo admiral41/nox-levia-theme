@@ -1,0 +1,32 @@
+<section class="nox-blog-list-page full-width">
+  {% render 'nox-breadcrumbs' %}
+
+  <div class="nox-section-container">
+    <div class="nox-section-heading">
+      <p>Nox Levia Guides</p>
+      <h1>{{ blog.title }}</h1>
+    </div>
+
+    <div class="nox-blog-grid">
+      {% for article in blog.articles %}
+        <a href="{{ article.url }}" class="nox-blog-card">
+          <span>{{ article.published_at | date: "%B %d, %Y" }}</span>
+          <h2>{{ article.title }}</h2>
+          <p>{{ article.excerpt_or_content | strip_html | truncate: 150 }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nox Main Blog",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nox Main Blog"
+    }
+  ]
+}
+{% endschema %}

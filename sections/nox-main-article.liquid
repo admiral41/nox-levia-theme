@@ -1,0 +1,39 @@
+<article class="nox-article-page full-width">
+  {% render 'nox-breadcrumbs' %}
+
+  <div class="nox-article-container">
+    <p class="nox-page-eyebrow">{{ blog.title }}</p>
+    <h1>{{ article.title }}</h1>
+
+    <div class="nox-article-meta">
+      {{ article.published_at | date: "%B %d, %Y" }}
+    </div>
+
+    {% if article.image %}
+      <div class="nox-article-image">
+        {{ article.image | image_url: width: 1400 | image_tag: loading: 'eager', alt: article.title }}
+      </div>
+    {% endif %}
+
+    <div class="nox-article-content">
+      {{ article.content }}
+    </div>
+
+    <div class="nox-page-links">
+      <a href="{{ routes.all_products_collection_url }}">Shop organic cotton bedding</a>
+      <a href="{{ routes.collections_url }}/bed-sheets">Explore bed sheets</a>
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Nox Main Article",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Nox Main Article"
+    }
+  ]
+}
+{% endschema %}
