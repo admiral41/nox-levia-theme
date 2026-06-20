@@ -1247,6 +1247,29 @@ aside {
   line-height: 1.62;
 }
 
+.nox-pagination {
+  margin-top: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--nox-muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.nox-pagination a {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--nox-gold-soft);
+  border-radius: 999px;
+  padding: 0 18px;
+  background: var(--nox-white);
+  color: var(--nox-sage-dark);
+}
+
 /* Newsletter */
 
 .nox-newsletter-section {
@@ -1724,10 +1747,19 @@ aside {
   gap: 12px;
 }
 
-.nox-quantity-label {
+.nox-product-label {
   color: var(--nox-text);
   font-size: 13px;
   font-weight: 800;
+}
+
+.nox-product-select {
+  min-height: 46px;
+  border: 1px solid var(--nox-gold-soft);
+  border-radius: 999px;
+  padding: 0 16px;
+  background: var(--nox-white);
+  color: var(--nox-text);
 }
 
 .nox-quantity-input {

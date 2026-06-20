@@ -1,0 +1,153 @@
+<section class="nox-page full-width">
+  {% render 'nox-breadcrumbs' %}
+
+  <div class="nox-page-hero">
+    <div class="nox-page-hero-inner nox-reveal">
+      <p class="nox-page-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1>{{ section.settings.heading }}</h1>
+      <p>{{ section.settings.intro }}</p>
+    </div>
+  </div>
+
+  <div class="nox-page-container">
+    <div class="nox-page-content nox-reveal">
+      {% if page.content != blank %}
+        {{ page.content }}
+      {% else %}
+        <h2>{{ section.settings.story_heading }}</h2>
+        <p>{{ section.settings.story_text }}</p>
+      {% endif %}
+    </div>
+
+    <div class="nox-page-values">
+      <div class="nox-page-value nox-reveal">
+        <span>01</span>
+        <h2>{{ section.settings.value_1_title }}</h2>
+        <p>{{ section.settings.value_1_text }}</p>
+      </div>
+
+      <div class="nox-page-value nox-reveal">
+        <span>02</span>
+        <h2>{{ section.settings.value_2_title }}</h2>
+        <p>{{ section.settings.value_2_text }}</p>
+      </div>
+
+      <div class="nox-page-value nox-reveal">
+        <span>03</span>
+        <h2>{{ section.settings.value_3_title }}</h2>
+        <p>{{ section.settings.value_3_text }}</p>
+      </div>
+    </div>
+
+    <div class="nox-page-links nox-reveal">
+      <a href="{{ routes.all_products_collection_url }}">{{ section.settings.shop_link_label }}</a>
+      <a href="{{ routes.root_url }}blogs/news">{{ section.settings.blog_link_label }}</a>
+      <a href="{{ routes.root_url }}pages/contact">{{ section.settings.contact_link_label }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nox About Us",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Nox Levia Canada"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "About Nox Levia"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro",
+      "default": "We create soft organic cotton bedding for calmer bedrooms, everyday comfort, and better rest in Canadian homes."
+    },
+    {
+      "type": "text",
+      "id": "story_heading",
+      "label": "Story heading",
+      "default": "Bedding made for calm, comfortable sleep."
+    },
+    {
+      "type": "textarea",
+      "id": "story_text",
+      "label": "Story text",
+      "default": "Nox Levia is built around a simple idea: your bedroom should feel restful before you even close your eyes. Our bedding focuses on breathable organic cotton, quiet design, and practical comfort for changing Canadian seasons."
+    },
+    {
+      "type": "header",
+      "content": "Values"
+    },
+    {
+      "type": "text",
+      "id": "value_1_title",
+      "label": "Value 1 title",
+      "default": "Organic comfort"
+    },
+    {
+      "type": "textarea",
+      "id": "value_1_text",
+      "label": "Value 1 text",
+      "default": "Soft, breathable cotton chosen for a naturally gentle feel against the skin."
+    },
+    {
+      "type": "text",
+      "id": "value_2_title",
+      "label": "Value 2 title",
+      "default": "Quiet design"
+    },
+    {
+      "type": "textarea",
+      "id": "value_2_text",
+      "label": "Value 2 text",
+      "default": "Simple colours and timeless textures that make your bedroom feel peaceful."
+    },
+    {
+      "type": "text",
+      "id": "value_3_title",
+      "label": "Value 3 title",
+      "default": "Canadian homes"
+    },
+    {
+      "type": "textarea",
+      "id": "value_3_text",
+      "label": "Value 3 text",
+      "default": "Bedding essentials made for real homes, everyday washing, and changing seasons."
+    },
+    {
+      "type": "header",
+      "content": "Links"
+    },
+    {
+      "type": "text",
+      "id": "shop_link_label",
+      "label": "Shop link label",
+      "default": "Shop organic cotton bedding"
+    },
+    {
+      "type": "text",
+      "id": "blog_link_label",
+      "label": "Blog link label",
+      "default": "Read bedding guides"
+    },
+    {
+      "type": "text",
+      "id": "contact_link_label",
+      "label": "Contact link label",
+      "default": "Contact us"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nox About Us"
+    }
+  ]
+}
+{% endschema %}

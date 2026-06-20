@@ -1,0 +1,83 @@
+<section class="nox-blog-list-page full-width">
+  {% render 'nox-breadcrumbs' %}
+
+  <div class="nox-section-container">
+    {% assign selected_blog = section.settings.blog %}
+
+    <div class="nox-section-heading nox-heading-row">
+      <div>
+        <p>{{ section.settings.eyebrow }}</p>
+        <h1>{{ section.settings.heading }}</h1>
+      </div>
+
+      {% if selected_blog != blank %}
+        <a href="{{ selected_blog.url }}" class="nox-text-link">{{ section.settings.link_label }}</a>
+      {% endif %}
+    </div>
+
+    {% if section.settings.description != blank %}
+      <div class="nox-collection-description">
+        {{ section.settings.description }}
+      </div>
+    {% endif %}
+
+    <div class="nox-blog-grid">
+      {% if selected_blog.articles.size > 0 %}
+        {% for article in selected_blog.articles limit: 12 %}
+          <a href="{{ article.url }}" class="nox-blog-card">
+            <span>{{ article.published_at | date: "%B %d, %Y" }}</span>
+            <h2>{{ article.title }}</h2>
+            <p>{{ article.excerpt_or_content | strip_html | truncate: 150 }}</p>
+          </a>
+        {% endfor %}
+      {% else %}
+        <div class="nox-empty-products">
+          <h2>No articles found.</h2>
+          <p>Select a blog in the theme editor, then add blog posts in Shopify Admin.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nox Blogs Landing",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Nox Levia Guides"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Organic bedding and sleep guides"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Care tips, fabric guides, and simple ideas for building a calmer bedroom.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Blog link label",
+      "default": "View all posts"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nox Blogs Landing"
+    }
+  ]
+}
+{% endschema %}

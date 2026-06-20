@@ -7,15 +7,36 @@
       <h1>{{ blog.title }}</h1>
     </div>
 
-    <div class="nox-blog-grid">
-      {% for article in blog.articles %}
-        <a href="{{ article.url }}" class="nox-blog-card">
-          <span>{{ article.published_at | date: "%B %d, %Y" }}</span>
-          <h2>{{ article.title }}</h2>
-          <p>{{ article.excerpt_or_content | strip_html | truncate: 150 }}</p>
-        </a>
-      {% endfor %}
-    </div>
+    {% paginate blog.articles by 9 %}
+      <div class="nox-blog-grid">
+        {% for article in blog.articles %}
+          <a href="{{ article.url }}" class="nox-blog-card">
+            <span>{{ article.published_at | date: "%B %d, %Y" }}</span>
+            <h2>{{ article.title }}</h2>
+            <p>{{ article.excerpt_or_content | strip_html | truncate: 150 }}</p>
+          </a>
+        {% else %}
+          <div class="nox-empty-products">
+            <h2>No articles found.</h2>
+            <p>Add blog posts in Shopify Admin to publish guides here.</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if paginate.pages > 1 %}
+        <nav class="nox-pagination" role="navigation" aria-label="Pagination">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}">Previous</a>
+          {% endif %}
+
+          <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}">Next</a>
+          {% endif %}
+        </nav>
+      {% endif %}
+    {% endpaginate %}
   </div>
 </section>
 

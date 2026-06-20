@@ -13,27 +13,43 @@
       {% endif %}
     </div>
 
-    <div class="nox-product-grid">
-      {% for product in collection.products %}
-        <a href="{{ product.url }}" class="nox-product-card">
-          <div class="nox-product-image">
-            {% if product.featured_image %}
-              {{ product.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: product.title }}
-            {% endif %}
-          </div>
+    {% paginate collection.products by 12 %}
+      <div class="nox-product-grid">
+        {% for product in collection.products %}
+          <a href="{{ product.url }}" class="nox-product-card">
+            <div class="nox-product-image">
+              {% if product.featured_image %}
+                {{ product.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: product.title }}
+              {% endif %}
+            </div>
 
-          <div class="nox-product-info">
-            <h2>{{ product.title }}</h2>
-            <p>{{ product.price | money }}</p>
+            <div class="nox-product-info">
+              <h2>{{ product.title }}</h2>
+              <p>{{ product.price | money }}</p>
+            </div>
+          </a>
+        {% else %}
+          <div class="nox-empty-products">
+            <h2>No products found.</h2>
+            <p>Add products to this collection in Shopify Admin.</p>
           </div>
-        </a>
-      {% else %}
-        <div class="nox-empty-products">
-          <h2>No products found.</h2>
-          <p>Add products to this collection in Shopify Admin.</p>
-        </div>
-      {% endfor %}
-    </div>
+        {% endfor %}
+      </div>
+
+      {% if paginate.pages > 1 %}
+        <nav class="nox-pagination" role="navigation" aria-label="Pagination">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}">Previous</a>
+          {% endif %}
+
+          <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}">Next</a>
+          {% endif %}
+        </nav>
+      {% endif %}
+    {% endpaginate %}
   </div>
 </section>
 

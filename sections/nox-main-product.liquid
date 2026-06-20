@@ -32,13 +32,36 @@
       {% endif %}
 
       {% form 'product', product, class: 'nox-product-form' %}
-        <input
-          type="hidden"
-          name="id"
-          value="{{ product.selected_or_first_available_variant.id }}"
-        >
+        {% if product.has_only_default_variant %}
+          <input
+            type="hidden"
+            name="id"
+            value="{{ product.selected_or_first_available_variant.id }}"
+          >
+        {% else %}
+          <label class="nox-product-label" for="ProductSelect-{{ section.id }}">
+            Options
+          </label>
 
-        <label class="nox-quantity-label" for="Quantity-{{ section.id }}">
+          <select
+            id="ProductSelect-{{ section.id }}"
+            class="nox-product-select"
+            name="id"
+          >
+            {% for variant in product.variants %}
+              <option
+                value="{{ variant.id }}"
+                {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                {% unless variant.available %}disabled{% endunless %}
+              >
+                {{ variant.title }} - {{ variant.price | money }}
+                {% unless variant.available %} - Sold out{% endunless %}
+              </option>
+            {% endfor %}
+          </select>
+        {% endif %}
+
+        <label class="nox-product-label" for="Quantity-{{ section.id }}">
           Quantity
         </label>
 
@@ -55,14 +78,18 @@
           type="submit"
           name="add"
           class="nox-add-to-cart"
-          {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+          {% unless product.available %}disabled{% endunless %}
         >
-          {% if product.selected_or_first_available_variant.available %}
+          {% if product.available %}
             Add to Cart
           {% else %}
             Sold Out
           {% endif %}
         </button>
+
+        {% if product.available %}
+          {{ form | payment_button }}
+        {% endif %}
       {% endform %}
 
       <div class="nox-product-trust">
