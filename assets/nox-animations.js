@@ -1,4 +1,29 @@
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".nox-nav-dropdown").forEach((dropdown) => {
+    let closeTimer;
+
+    dropdown.addEventListener("mouseenter", () => {
+      if (!window.matchMedia("(min-width: 1181px)").matches) return;
+      window.clearTimeout(closeTimer);
+      dropdown.open = true;
+    });
+
+    dropdown.addEventListener("mouseleave", () => {
+      if (!window.matchMedia("(min-width: 1181px)").matches) return;
+      closeTimer = window.setTimeout(() => {
+        if (!dropdown.matches(":hover") && !dropdown.matches(":focus-within")) dropdown.open = false;
+      }, 320);
+    });
+
+    dropdown.addEventListener("focusin", () => window.clearTimeout(closeTimer));
+    dropdown.addEventListener("focusout", () => {
+      if (!window.matchMedia("(min-width: 1181px)").matches) return;
+      closeTimer = window.setTimeout(() => {
+        if (!dropdown.matches(":hover") && !dropdown.matches(":focus-within")) dropdown.open = false;
+      }, 320);
+    });
+  });
+
   const revealItems = document.querySelectorAll(
     ".nox-reveal, .nox-section-heading, .nox-category-card, .nox-product-card, .nox-blog-card, .nox-newsletter, .nox-footer-column"
   );

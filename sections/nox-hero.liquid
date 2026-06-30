@@ -1,52 +1,76 @@
+{% assign hero_poster = 'hero-organic-bedroom.jpg' | asset_url %}
+
 <section class="nox-hero-section full-width" aria-label="Nox Levia organic cotton bedding hero">
-  <picture class="nox-hero-bg">
-    <source
-      media="(max-width: 749px)"
-      srcset="{{ 'hero-mobile.png' | asset_url }}"
-    >
-
-    <img
-      src="{{ 'hero-desktop.png' | asset_url }}"
-      alt="Organic cotton bed sheets and bedding styled in a calm modern bedroom"
-      width="1920"
-      height="850"
-      loading="eager"
-    >
-  </picture>
-
-  <div class="nox-hero-shade"></div>
+  <div class="nox-hero-bg">
+    {% if section.settings.video != blank %}
+      {{
+        section.settings.video
+        | video_tag:
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          playsinline: true,
+          preload: 'metadata',
+          poster: hero_poster
+      }}
+    {% else %}
+      <img
+        src="{{ 'hero-organic-bedroom.jpg' | asset_url }}"
+        alt="Bright bedroom dressed in soft organic cotton bedding"
+        width="1792"
+        height="1024"
+        loading="eager"
+        fetchpriority="high"
+      >
+    {% endif %}
+  </div>
 
   <div class="nox-hero-inner">
     <div class="nox-hero-content">
       <p class="nox-hero-eyebrow">
-        Organic Cotton Bedding Canada
+        <img src="{{ 'gots-certified-logo.webp' | asset_url }}" alt="" width="44" height="44" aria-hidden="true">
+        Certified organic comfort
       </p>
 
       <h1>
-        Organic cotton sheets for better sleep in Canada.
+        Sleep Naturally in 100% GOTS-Certified Organic Cotton
       </h1>
 
       <p class="nox-hero-text">
-        Soft, breathable bedding and sheet sets designed for calm bedrooms, everyday comfort, and natural rest.
+        Soft, breathable bedding made for calmer nights, cleaner comfort, and everyday luxury.
       </p>
 
       <div class="nox-hero-actions">
-        <a href="{{ routes.all_products_collection_url }}" class="nox-hero-btn nox-hero-btn-primary">
-          Shop Bedding
+        <a href="{{ routes.collections_url }}/sheet-sets" class="nox-hero-btn nox-hero-btn-primary">
+          Shop Sheets
         </a>
 
-        <a href="{{ routes.collections_url }}/bed-sheets" class="nox-hero-btn nox-hero-btn-secondary">
-          Shop Bed Sheets
+        <a href="{{ routes.root_url }}pages/why-organic-cotton" class="nox-hero-btn nox-hero-btn-secondary">
+          Why Organic Cotton
         </a>
       </div>
+
+      <p class="nox-hero-note">Naturally breathable · Thoughtfully made · Easy returns</p>
     </div>
   </div>
 </section>
 
+<div class="nox-hero-trust">
+  {% render 'nox-trustbar' %}
+</div>
+
 {% schema %}
 {
   "name": "Nox Hero",
-  "settings": [],
+  "settings": [
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Lifestyle hero video",
+      "info": "Optional. A compressed Shopify-hosted MP4 will replace the bright bedroom poster image."
+    }
+  ],
   "presets": [
     {
       "name": "Nox Hero"

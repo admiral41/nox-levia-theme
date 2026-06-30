@@ -1,57 +1,170 @@
+{% liquid
+  assign pillow_collection = header_section.settings.pillow_collection
+  assign sheets_collection = header_section.settings.sheets_collection
+  assign mattress_collection = header_section.settings.mattress_collection
+  assign bundle_collection = header_section.settings.bundle_collection
+
+  assign pillow_url = routes.all_products_collection_url
+  if pillow_collection != blank
+    assign pillow_url = pillow_collection.url
+  endif
+
+  assign sheets_url = routes.all_products_collection_url
+  if sheets_collection != blank
+    assign sheets_url = sheets_collection.url
+  endif
+
+  assign mattress_url = routes.all_products_collection_url
+  if mattress_collection != blank
+    assign mattress_url = mattress_collection.url
+  endif
+
+  assign bundle_url = routes.all_products_collection_url
+  if bundle_collection != blank
+    assign bundle_url = bundle_collection.url
+  endif
+
+  assign selected_blog = header_section.settings.blogs_menu
+  assign blogs_url = routes.root_url | append: 'blogs/news'
+  if selected_blog != blank
+    assign blogs_url = selected_blog.url
+  endif
+
+  assign about_url = header_section.settings.about_link
+  if about_url == blank
+    assign about_url = routes.root_url | append: 'pages/about-us'
+  endif
+
+  assign queen_image = 'category-bed-sheets.png' | asset_url
+  if header_section.settings.queen_image != blank
+    assign queen_image = header_section.settings.queen_image | image_url: width: 500
+  endif
+
+  assign king_image = 'category-bedding-sets.png' | asset_url
+  if header_section.settings.king_image != blank
+    assign king_image = header_section.settings.king_image | image_url: width: 500
+  endif
+
+  assign twin_image = 'hero-organic-bedroom.jpg' | asset_url
+  if header_section.settings.twin_image != blank
+    assign twin_image = header_section.settings.twin_image | image_url: width: 500
+  endif
+%}
+
 <div class="nox-navbar">
   <input type="checkbox" id="nox-menu-toggle" class="nox-menu-toggle">
 
   <label for="nox-menu-toggle" class="nox-menu-button" aria-label="Open navigation menu">
-    <span></span>
-    <span></span>
-    <span></span>
+    <span></span><span></span><span></span>
   </label>
 
   <nav class="nox-nav nox-nav-left" aria-label="Primary navigation left">
-    <a href="{{ routes.root_url }}">Home</a>
-    <a href="{{ routes.all_products_collection_url }}">Products</a>
+    <details class="nox-nav-dropdown nox-shop-dropdown">
+      <summary>
+        Shop
+        <svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 1 5 5 5-5" /></svg>
+      </summary>
+
+      <div class="nox-shop-mega">
+        <div class="nox-shop-mega__intro">
+          <span>{{ header_section.settings.shop_eyebrow }}</span>
+          <h2>{{ header_section.settings.shop_heading }}</h2>
+          <a href="{{ routes.all_products_collection_url }}">Explore all products <b aria-hidden="true">→</b></a>
+        </div>
+
+        <div class="nox-shop-mega__catalog">
+          <nav class="nox-shop-mega__category-list" aria-label="Shop categories">
+            <a href="{{ pillow_url }}">Pillow Case</a>
+
+            <div class="nox-shop-mega__bed-sheets">
+              <a href="{{ sheets_url }}">
+                Bed Sheets
+                <span aria-hidden="true">→</span>
+              </a>
+
+              <div class="nox-shop-mega__sizes">
+                <a href="{{ sheets_url }}?filter.v.option.size=Queen">
+                  <img src="{{ queen_image }}" alt="Queen bed sheets" width="300" height="190" loading="lazy">
+                  <span><strong>Queen</strong><small>Ready to order</small></span>
+                </a>
+                <a href="{{ sheets_url }}?filter.v.option.size=King">
+                  <img src="{{ king_image }}" alt="King bed sheets" width="300" height="190" loading="lazy">
+                  <span><strong>King</strong><small>Founding pre-purchase</small></span>
+                </a>
+                <a href="{{ sheets_url }}?filter.v.option.size=Twin">
+                  <img src="{{ twin_image }}" alt="Twin bed sheets" width="300" height="190" loading="lazy">
+                  <span><strong>Twin</strong><small>Founding pre-purchase</small></span>
+                </a>
+              </div>
+            </div>
+
+            <a href="{{ mattress_url }}">Mattress Cover</a>
+            <a href="{{ bundle_url }}">Complete Bundle Set</a>
+          </nav>
+        </div>
+      </div>
+    </details>
+
+    <a href="{{ blogs_url }}">{{ header_section.settings.blogs_label }}</a>
   </nav>
 
   <a href="{{ routes.root_url }}" class="nox-logo" aria-label="Nox Levia home">
-    <img src="{{ 'logo.png' | asset_url }}" alt="Nox Levia organic cotton bedding Canada" width="160" height="70" loading="eager">
+    <img src="{{ 'logo.png' | asset_url }}" alt="Nox Levia organic cotton bedding Canada" width="194" height="82" loading="eager">
   </a>
 
   <nav class="nox-nav nox-nav-right" aria-label="Primary navigation right">
-    <a href="{{ routes.root_url }}pages/about-us">About Us</a>
-    <a hhref="{{ routes.root_url }}blogs/news">Blog</a>
+    <details class="nox-nav-dropdown">
+      <summary>
+        Why Nox Levia
+        <svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 1 5 5 5-5" /></svg>
+      </summary>
+      <div class="nox-nav-dropdown-panel">
+        <a href="{{ routes.root_url }}pages/why-organic-cotton">Why Organic Cotton</a>
+        <a href="{{ routes.root_url }}pages/gots-certification">GOTS Certification</a>
+        <a href="{{ routes.root_url }}pages/our-story">Our Story</a>
+        <a href="{{ routes.root_url }}pages/sustainability">Sustainability</a>
+        <a href="{{ routes.root_url }}pages/care-instructions">Care Instructions</a>
+      </div>
+    </details>
+    <a href="{{ about_url }}">{{ header_section.settings.about_label }}</a>
   </nav>
 
   <div class="nox-actions" aria-label="Store actions">
     <a href="{{ routes.search_url }}" class="nox-icon" aria-label="Search products">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M21 21L16.65 16.65M19 11C19 15.4 15.4 19 11 19C6.6 19 3 15.4 3 11C3 6.6 6.6 3 11 3C15.4 3 19 6.6 19 11Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none"><path d="M21 21L16.65 16.65M19 11C19 15.4 15.4 19 11 19C6.6 19 3 15.4 3 11C3 6.6 6.6 3 11 3C15.4 3 19 6.6 19 11Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
     </a>
-
     <a href="{{ routes.account_url }}" class="nox-icon nox-account" aria-label="Customer account">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M20 21C20 17.7 16.4 15 12 15C7.6 15 4 17.7 4 21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-        <path d="M12 12C14.5 12 16.5 10 16.5 7.5C16.5 5 14.5 3 12 3C9.5 3 7.5 5 7.5 7.5C7.5 10 9.5 12 12 12Z" stroke="currentColor" stroke-width="1.7"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none"><path d="M20 21C20 17.7 16.4 15 12 15C7.6 15 4 17.7 4 21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M12 12C14.5 12 16.5 10 16.5 7.5C16.5 5 14.5 3 12 3C9.5 3 7.5 5 7.5 7.5C7.5 10 9.5 12 12 12Z" stroke="currentColor" stroke-width="1.7"/></svg>
     </a>
-
     <a href="{{ routes.cart_url }}" class="nox-icon nox-cart" aria-label="Shopping cart">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M6 8H20L18.7 15H7.3L6 8Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-        <path d="M6 8L5.5 5H3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-        <circle cx="9" cy="19" r="1.2" fill="currentColor"/>
-        <circle cx="17" cy="19" r="1.2" fill="currentColor"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 8H20L18.7 15H7.3L6 8Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M6 8L5.5 5H3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="9" cy="19" r="1.2" fill="currentColor"/><circle cx="17" cy="19" r="1.2" fill="currentColor"/></svg>
       <span>{{ cart.item_count }}</span>
     </a>
   </div>
 
   <nav class="nox-mobile-menu" aria-label="Mobile navigation">
-    <a href="{{ routes.root_url }}">Home</a>
-    <a href="{{ routes.all_products_collection_url }}">Products</a>
-    <a href="{{ routes.collections_url }}/sheet-sets">Sheet Sets</a>
-    <a href="{{ routes.collections_url }}/bed-sheets">Bed Sheets</a>
-    <a href="{{ routes.root_url }}pages/about-us">About Us</a>
-    <a href="{{ routes.root_url }}blogs/news">Blog</a>
+    <div class="nox-mobile-menu-head">
+      <span>Menu</span>
+      <label for="nox-menu-toggle" aria-label="Close navigation menu">×</label>
+    </div>
+
+    <p class="nox-mobile-menu-label">Shop</p>
+    <a href="{{ pillow_url }}">Pillow Case</a>
+    <a href="{{ sheets_url }}">Bed Sheets</a>
+    <div class="nox-mobile-sizes">
+      <a href="{{ sheets_url }}?filter.v.option.size=Queen">Queen</a>
+      <a href="{{ sheets_url }}?filter.v.option.size=King">King · Founding pre-purchase</a>
+      <a href="{{ sheets_url }}?filter.v.option.size=Twin">Twin · Founding pre-purchase</a>
+    </div>
+    <a href="{{ mattress_url }}">Mattress Cover</a>
+    <a href="{{ bundle_url }}">Complete Bundle Set</a>
+
+    <p class="nox-mobile-menu-label">Discover</p>
+    <a href="{{ blogs_url }}">{{ header_section.settings.blogs_label }}</a>
+    <a href="{{ routes.root_url }}pages/why-organic-cotton">Why Organic Cotton</a>
+    <a href="{{ routes.root_url }}pages/gots-certification">GOTS Certification</a>
+    <a href="{{ routes.root_url }}pages/sustainability">Sustainability</a>
+    <a href="{{ about_url }}">{{ header_section.settings.about_label }}</a>
+    <a href="{{ routes.account_url }}" class="nox-mobile-account">Account</a>
   </nav>
 </div>

@@ -1,13 +1,45 @@
 <footer class="nox-footer full-width">
+  <div class="nox-footer-newsletter">
+    <div class="nox-footer-newsletter-copy">
+      <p>Stay comfortably in the know</p>
+      <h2>Better sleep notes, without the bedtime clutter.</h2>
+      <span>Get thoughtful bedding care, new collection updates, and occasional offers.</span>
+    </div>
+
+    {% form 'customer', class: 'nox-footer-newsletter-form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input type="hidden" name="contact[accepts_marketing]" value="true">
+      <div class="nox-footer-newsletter-field">
+        <input
+          type="email"
+          name="contact[email]"
+          placeholder="Your email address"
+          aria-label="Your email address"
+          required
+        >
+        <button type="submit">Join the list</button>
+      </div>
+      <small>By subscribing, you agree to receive Nox Levia emails. Unsubscribe anytime.</small>
+
+      {% if form.posted_successfully? %}
+        <p class="nox-footer-newsletter-message" role="status">You’re on the list. Welcome to softer sleep.</p>
+      {% endif %}
+
+      {% if form.errors %}
+        <div class="nox-footer-newsletter-message nox-footer-newsletter-error" role="alert">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+    {% endform %}
+  </div>
+
   <div class="nox-footer-inner">
     <div class="nox-footer-brand">
       <a href="{{ routes.root_url }}" class="nox-footer-logo">
-        <img src="{{ 'logo.png' | asset_url }}" alt="Nox Levia organic cotton bedding Canada" width="160" height="70" loading="lazy">
+        <img src="{{ 'logo.png' | asset_url }}" alt="Nox Levia organic cotton bedding Canada" width="180" height="78" loading="lazy">
       </a>
-
-      <p>
-        Premium organic cotton sheets and bedding essentials designed for calm, comfortable Canadian homes.
-      </p>
+      <p>Bright, breathable organic cotton bedding made for calmer nights and comfortable Canadian homes.</p>
+      <div class="nox-footer-cert"><strong>GOTS</strong><span>Certified organic cotton</span></div>
     </div>
 
     <div class="nox-footer-column">
@@ -19,25 +51,27 @@
     </div>
 
     <div class="nox-footer-column">
-        <h3>Company</h3>
-        <a href="{{ routes.root_url }}pages/about-us">About Us</a>
-        <a href="{{ routes.root_url }}pages/our-story">Our Story</a>
-        <a href="{{ routes.root_url }}blogs/news">Blog</a>
-        <a href="{{ routes.root_url }}pages/contact">Contact</a>
+      <h3>Discover</h3>
+      <a href="{{ routes.root_url }}pages/why-organic-cotton">Why Organic Cotton</a>
+      <a href="{{ routes.root_url }}pages/gots-certification">GOTS Certification</a>
+      <a href="{{ routes.root_url }}pages/our-story">Our Story</a>
+      <a href="{{ routes.root_url }}pages/sustainability">Sustainability</a>
+      <a href="{{ routes.root_url }}blogs/news">Blog</a>
     </div>
 
     <div class="nox-footer-column">
-        <h3>Support</h3>
-        <a href="{{ routes.root_url }}policies/shipping-policy">Shipping Policy</a>
-        <a href="{{ routes.root_url }}policies/refund-policy">Returns & Refunds</a>
-        <a href="{{ routes.root_url }}policies/privacy-policy">Privacy Policy</a>
-        <a href="{{ routes.root_url }}policies/terms-of-service">Terms of Service</a>
+      <h3>Support</h3>
+      <a href="{{ routes.root_url }}pages/care-instructions">Care Instructions</a>
+      <a href="{{ routes.root_url }}pages/contact">Contact</a>
+      <a href="{{ routes.root_url }}policies/shipping-policy">Shipping Policy</a>
+      <a href="{{ routes.root_url }}policies/refund-policy">Returns &amp; Refunds</a>
+      <a href="{{ routes.root_url }}policies/privacy-policy">Privacy Policy</a>
     </div>
   </div>
 
   <div class="nox-footer-bottom">
-    <p>© {{ 'now' | date: '%Y' }} Nox Levia. All rights reserved.</p>
-    <p>Organic cotton bedding for Canada.</p>
+    <p>&copy; {{ 'now' | date: '%Y' }} Nox Levia. All rights reserved.</p>
+    <p>Organic comfort, thoughtfully made.</p>
   </div>
 </footer>
 
@@ -45,10 +79,6 @@
 {
   "name": "Nox Footer",
   "settings": [],
-  "presets": [
-    {
-      "name": "Nox Footer"
-    }
-  ]
+  "presets": [{ "name": "Nox Footer" }]
 }
 {% endschema %}

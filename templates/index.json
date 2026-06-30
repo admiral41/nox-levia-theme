@@ -10,14 +10,52 @@
     },
     "featured_products": {
       "type": "nox-featured-products",
+      "blocks": {
+        "bed_sheets": {
+          "type": "category",
+          "settings": {
+            "label": "Bed Sheets",
+            "panel_heading": "Best selling bed sheets",
+            "icon": "bed"
+          }
+        },
+        "complete_sets": {
+          "type": "category",
+          "settings": {
+            "label": "Complete Sets",
+            "panel_heading": "Complete bedding sets",
+            "icon": "bundle"
+          }
+        }
+      },
+      "block_order": [
+        "bed_sheets",
+        "complete_sets"
+      ],
+      "settings": {}
+    },
+    "organic_story": {
+      "type": "nox-organic-story",
+      "settings": {}
+    },
+    "gots": {
+      "type": "nox-gots",
+      "settings": {}
+    },
+    "lifestyle": {
+      "type": "nox-lifestyle-grid",
+      "settings": {}
+    },
+    "reviews": {
+      "type": "nox-reviews",
+      "settings": {}
+    },
+    "care": {
+      "type": "nox-care-teaser",
       "settings": {}
     },
     "blog_preview": {
       "type": "nox-blog-preview",
-      "settings": {}
-    },
-    "newsletter": {
-      "type": "nox-newsletter",
       "settings": {}
     }
   },
@@ -25,7 +63,11 @@
     "hero",
     "categories",
     "featured_products",
-    "blog_preview",
-    "newsletter"
+    "organic_story",
+    "gots",
+    "lifestyle",
+    "reviews",
+    "care",
+    "blog_preview"
   ]
 }

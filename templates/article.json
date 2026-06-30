@@ -3,14 +3,9 @@
     "main": {
       "type": "nox-main-article",
       "settings": {}
-    },
-    "newsletter": {
-      "type": "nox-newsletter",
-      "settings": {}
     }
   },
   "order": [
-    "main",
-    "newsletter"
+    "main"
   ]
 }

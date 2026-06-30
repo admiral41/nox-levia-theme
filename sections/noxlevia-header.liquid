@@ -1,15 +1,92 @@
 <div class="nox-header-wrapper full-width">
   <header class="nox-header">
     {% render 'nox-topbar' %}
-    {% render 'nox-navbar' %}
-    {% render 'nox-trustbar' %}
+    {% render 'nox-navbar', header_section: section %}
   </header>
 </div>
 
 {% schema %}
 {
   "name": "Noxlevia Header",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Shop menu"
+    },
+    {
+      "type": "text",
+      "id": "shop_eyebrow",
+      "label": "Shop eyebrow",
+      "default": "Sleep essentials"
+    },
+    {
+      "type": "text",
+      "id": "shop_heading",
+      "label": "Shop heading",
+      "default": "Shop naturally softer bedding."
+    },
+    {
+      "type": "collection",
+      "id": "pillow_collection",
+      "label": "Pillow case collection"
+    },
+    {
+      "type": "collection",
+      "id": "sheets_collection",
+      "label": "Bed sheets collection"
+    },
+    {
+      "type": "collection",
+      "id": "mattress_collection",
+      "label": "Mattress cover collection"
+    },
+    {
+      "type": "collection",
+      "id": "bundle_collection",
+      "label": "Complete bundle collection"
+    },
+    {
+      "type": "image_picker",
+      "id": "queen_image",
+      "label": "Queen image"
+    },
+    {
+      "type": "image_picker",
+      "id": "king_image",
+      "label": "King image"
+    },
+    {
+      "type": "image_picker",
+      "id": "twin_image",
+      "label": "Twin image"
+    },
+    {
+      "type": "header",
+      "content": "Main navigation"
+    },
+    {
+      "type": "text",
+      "id": "blogs_label",
+      "label": "Blogs label",
+      "default": "Blogs"
+    },
+    {
+      "type": "blog",
+      "id": "blogs_menu",
+      "label": "Blog"
+    },
+    {
+      "type": "text",
+      "id": "about_label",
+      "label": "About label",
+      "default": "About"
+    },
+    {
+      "type": "url",
+      "id": "about_link",
+      "label": "About link"
+    }
+  ],
   "presets": [
     {
       "name": "Noxlevia Header"

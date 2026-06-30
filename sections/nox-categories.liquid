@@ -1,35 +1,649 @@
-<section class="nox-categories-section full-width">
-  <div class="nox-section-container">
-    <div class="nox-section-heading">
-      <p>Shop by comfort</p>
-      <h2>Organic bedding essentials for every room.</h2>
-    </div>
+{% liquid
+  assign sheets_image = 'category-bed-sheets.png' | asset_url
+  if section.settings.sheets_image != blank
+    assign sheets_image = section.settings.sheets_image | image_url: width: 1600
+  endif
 
-    <div class="nox-category-grid">
-     <a href="{{ routes.collections_url }}/sheet-sets" class="nox-category-card">
-        <span>01</span>
-        <h3>Sheet Sets</h3>
-        <p>Complete organic cotton bedding sets for everyday comfort.</p>
-      </a>
+  assign sets_image = 'category-bedding-sets.png' | asset_url
+  if section.settings.sets_image != blank
+    assign sets_image = section.settings.sets_image | image_url: width: 1600
+  endif
 
-      <a href="{{ routes.collections_url }}/bed-sheets" class="nox-category-card">
-        <span>02</span>
-        <h3>Bed Sheets</h3>
-        <p>Soft, breathable sheets made for calm sleep in Canada.</p>
-      </a>
+  assign sheets_link = section.settings.sheets_link
+  if sheets_link == blank
+    assign sheets_link = routes.collections_url | append: '/bed-sheets'
+  endif
 
-<a href="{{ routes.collections_url }}/pillowcases" class="nox-category-card">        <span>03</span>
-        <h3>Pillowcases</h3>
-        <p>Gentle cotton pillowcases for a clean, comfortable bed.</p>
-      </a>
+  assign sets_link = section.settings.sets_link
+  if sets_link == blank
+    assign sets_link = routes.collections_url | append: '/sheet-sets'
+  endif
+%}
+
+<section class="nox-shop-categories" aria-labelledby="nox-categories-title-{{ section.id }}">
+  <div class="nox-shop-categories__inner">
+    <header class="nox-shop-categories__header">
+      <h2 id="nox-categories-title-{{ section.id }}">{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.subheading }}</p>
+    </header>
+
+    <div class="nox-shop-categories__grid">
+      <article class="nox-shop-card nox-shop-card--sheets">
+        <img
+          class="nox-shop-card__image"
+          src="{{ sheets_image }}"
+          alt="{{ section.settings.sheets_image.alt | default: 'A stack of folded organic cotton bed sheets' | escape }}"
+          width="1536"
+          height="1024"
+          loading="lazy"
+        >
+        <div class="nox-shop-card__wash" aria-hidden="true"></div>
+
+        <div class="nox-shop-card__content">
+          <p class="nox-shop-card__eyebrow">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M16 27V15m0 5c-4.5 0-8-2.9-8-7.1C8 9.2 11.2 6 15 6c.5-2.3 2.5-4 5-4 2.8 0 5 2.2 5 5v.3c2.9.5 5 3 5 6 0 3.5-2.8 6.3-6.3 6.3H22M16 24l-5-4m5 1 5-4" />
+            </svg>
+            <span>{{ section.settings.sheets_eyebrow }}</span>
+          </p>
+
+          <h3>{{ section.settings.sheets_heading }}</h3>
+          <p class="nox-shop-card__description">{{ section.settings.sheets_text }}</p>
+
+          <a class="nox-shop-card__button" href="{{ sheets_link }}">
+            {{ section.settings.sheets_button }}
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M4 10h11m-4-4 4 4-4 4" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="nox-shop-card__features" aria-label="Bed sheet benefits">
+          <div class="nox-shop-card__feature">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M27 5C14 7 7 13 7 21c0 4 2.7 6 6 6 8 0 12-8 14-22Z" />
+              <path d="M5 29c5-9 10-13 18-18M13 27c0-4-1-7-4-9" />
+            </svg>
+            <span>100% Organic Cotton</span>
+          </div>
+          <div class="nox-shop-card__feature">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M4 10h15c4 0 4-6 0-6-2 0-3 1-3 3M4 16h21c4 0 4 6 0 6-2 0-3-1-3-3M4 22h10c4 0 4 6 0 6-2 0-3-1-3-3" />
+            </svg>
+            <span>Breathable &amp; Cooling</span>
+          </div>
+          <div class="nox-shop-card__feature">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M16 29c8-4 12-11 11-24-13 0-21 7-21 15 0 5 4 8 10 9Z" />
+              <path d="M7 28c4-8 9-13 16-18M15 20l-1-6m5 2 4-1" />
+            </svg>
+            <span>Sustainably Made</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="nox-shop-card nox-shop-card--sets">
+        <img
+          class="nox-shop-card__image"
+          src="{{ sets_image }}"
+          alt="{{ section.settings.sets_image.alt | default: 'A coordinated sage green organic cotton bedding set' | escape }}"
+          width="1536"
+          height="1024"
+          loading="lazy"
+        >
+        <div class="nox-shop-card__wash" aria-hidden="true"></div>
+
+        <div class="nox-shop-card__content">
+          <p class="nox-shop-card__eyebrow">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M4 14h24v13H4zM7 14V7h18v7M4 20h24M8 10h7v4m2-4h7v4" />
+            </svg>
+            <span>{{ section.settings.sets_eyebrow }}</span>
+          </p>
+
+          <h3>{{ section.settings.sets_heading }}</h3>
+          <p class="nox-shop-card__description">{{ section.settings.sets_text }}</p>
+
+          <a class="nox-shop-card__button" href="{{ sets_link }}">
+            {{ section.settings.sets_button }}
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M4 10h11m-4-4 4 4-4 4" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="nox-shop-card__features" aria-label="Bedding set benefits">
+          <div class="nox-shop-card__feature">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <rect x="5" y="6" width="22" height="6" rx="3" />
+              <rect x="3" y="13" width="26" height="7" rx="3" />
+              <rect x="5" y="21" width="22" height="6" rx="3" />
+            </svg>
+            <span>Coordinated Look</span>
+          </div>
+          <div class="nox-shop-card__feature">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M4 11h24v17H4zM16 11v17M3 7h26v5H3zM16 7c-5 0-8-1-8-4 0-2 2-3 4-2 3 1 4 6 4 6Zm0 0c5 0 8-1 8-4 0-2-2-3-4-2-3 1-4 6-4 6Z" />
+            </svg>
+            <span>Complete Comfort</span>
+          </div>
+          <div class="nox-shop-card__feature">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path d="m16 3 4 3 5-.1 1.4 4.8 4 3-1.7 4.7 1.7 4.7-4 3-1.4 4.8-5-.1-4 3-4-3-5 .1-1.4-4.8-4-3 1.7-4.7-1.7-4.7 4-3L7 5.9l5 .1 4-3Z" />
+              <path d="m12 17 2.7 2.7L21 13.5" />
+            </svg>
+            <span>Premium Quality</span>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
 
+<style>
+  #shopify-section-{{ section.id }} {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-categories,
+  #shopify-section-{{ section.id }} .nox-shop-categories * {
+    box-sizing: border-box;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-categories {
+    padding: 38px 32px 68px;
+    background: #fdfbf7;
+    color: #272820;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-categories__inner {
+    width: min(100%, 1410px);
+    margin: 0 auto;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-categories__header {
+    margin: 0 auto 36px;
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-categories__header h2 {
+    margin: 0;
+    color: #272820;
+    font-family: var(--nox-font-heading, Georgia, serif);
+    font-size: clamp(36px, 3.15vw, 50px);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-categories__header p {
+    max-width: 640px;
+    margin: 16px auto 0;
+    color: #3d3d37;
+    font-size: clamp(15px, 1.25vw, 18px);
+    line-height: 1.55;
+    white-space: pre-line;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-categories__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: clamp(18px, 2.1vw, 26px);
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card {
+    position: relative;
+    min-height: clamp(452px, 32vw, 492px);
+    overflow: hidden;
+    border-radius: 22px;
+    background: #f4eee5;
+    isolation: isolate;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card--sets {
+    background: #e7eae3;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__image,
+  #shopify-section-{{ section.id }} .nox-shop-card__wash {
+    position: absolute;
+    inset: 0 0 88px;
+    width: 100%;
+    height: calc(100% - 88px);
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__image {
+    z-index: -2;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__wash {
+    z-index: -1;
+    background: linear-gradient(90deg, rgba(248, 242, 233, 0.98) 0%, rgba(248, 242, 233, 0.86) 43%, rgba(248, 242, 233, 0.04) 70%);
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card--sets .nox-shop-card__wash {
+    background: linear-gradient(90deg, rgba(231, 234, 227, 0.98) 0%, rgba(231, 234, 227, 0.88) 43%, rgba(231, 234, 227, 0.04) 70%);
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__content {
+    position: absolute;
+    inset: 0 auto 88px 0;
+    z-index: 2;
+    width: min(58%, 430px);
+    padding: clamp(30px, 2.7vw, 40px) 0 clamp(34px, 4.8vw, 76px) clamp(28px, 3vw, 42px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 clamp(22px, 2.2vw, 34px);
+    color: #303129;
+    font-size: clamp(10px, 0.82vw, 12px);
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__eyebrow svg {
+    width: 29px;
+    height: 29px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.2;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card h3 {
+    max-width: 370px;
+    margin: 0 0 clamp(17px, 1.6vw, 25px);
+    color: #292b23;
+    font-family: var(--nox-font-heading, Georgia, serif);
+    font-size: clamp(36px, 3.08vw, 52px);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__description {
+    max-width: 350px;
+    margin: 0;
+    color: #34362f;
+    font-size: clamp(13px, 0.95vw, 15px);
+    line-height: 1.55;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__button {
+    margin-top: auto;
+    max-width: 100%;
+    min-height: 47px;
+    padding: 0 22px;
+    border-radius: 8px;
+    background: #334024;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__button:hover {
+    background: #222c18;
+    transform: translateY(-2px);
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__button svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.4;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__features {
+    position: absolute;
+    inset: auto 0 0;
+    min-height: 88px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    background: rgba(253, 251, 247, 0.9);
+    border-top: 1px solid rgba(39, 40, 32, 0.08);
+    backdrop-filter: blur(10px);
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card--sets .nox-shop-card__features {
+    background: rgba(243, 245, 240, 0.9);
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__feature {
+    min-width: 0;
+    padding: 16px clamp(10px, 1.1vw, 17px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    border-right: 1px solid rgba(39, 40, 32, 0.1);
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__feature:last-child {
+    border-right: 0;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__feature svg {
+    width: 31px;
+    height: 31px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: #34372d;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.2;
+  }
+
+  #shopify-section-{{ section.id }} .nox-shop-card__feature span {
+    min-width: 0;
+    color: #30322b;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.38;
+    overflow-wrap: normal;
+    text-wrap: balance;
+  }
+
+  @media (max-width: 1100px) {
+    #shopify-section-{{ section.id }} .nox-shop-categories {
+      padding-inline: 22px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card {
+      min-height: 444px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__content {
+      width: 61%;
+      padding-left: 32px;
+      padding-bottom: 54px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__feature {
+      padding-inline: 10px;
+      gap: 9px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__feature svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__feature span {
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 980px) {
+    #shopify-section-{{ section.id }} .nox-shop-categories__grid {
+      grid-template-columns: 1fr;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card {
+      min-height: 500px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__content {
+      width: min(55%, 430px);
+      padding: 40px 0 70px 42px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    #shopify-section-{{ section.id }} .nox-shop-categories {
+      padding: 30px 14px 42px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-categories__header {
+      margin-bottom: 18px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-categories__header h2 {
+      font-size: clamp(30px, 9vw, 37px);
+      line-height: 1;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-categories__header p {
+      max-width: 330px;
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.45;
+      white-space: normal;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-categories__grid {
+      gap: 18px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card {
+      min-height: 0;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__image {
+      position: relative;
+      inset: auto;
+      z-index: 0;
+      width: 100%;
+      height: clamp(178px, 52vw, 238px);
+      object-fit: cover;
+      object-position: 66% center;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__wash {
+      display: none;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__content {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      min-height: 0;
+      padding: 22px 18px 24px;
+      gap: 0;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__eyebrow {
+      gap: 8px;
+      margin-bottom: 16px;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__eyebrow svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card h3 {
+      max-width: 100%;
+      margin-bottom: 14px;
+      font-size: clamp(31px, 8.6vw, 39px);
+      line-height: 1.06;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__description {
+      max-width: 100%;
+      font-size: 13px;
+      line-height: 1.58;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__button {
+      min-height: 46px;
+      margin-top: 22px;
+      padding-inline: 18px;
+      font-size: 13px;
+      gap: 10px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__features {
+      position: relative;
+      inset: auto;
+      min-height: 0;
+      grid-template-columns: 1fr;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__feature {
+      justify-content: flex-start;
+      padding: 13px 18px;
+      gap: 12px;
+      border-right: 0;
+      border-bottom: 1px solid rgba(39, 40, 32, 0.1);
+      text-align: left;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__feature:last-child {
+      border-bottom: 0;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__feature svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__feature span {
+      font-size: 12px;
+      line-height: 1.3;
+      overflow-wrap: normal;
+    }
+  }
+
+  @media (max-width: 420px) {
+    #shopify-section-{{ section.id }} .nox-shop-card__content {
+      padding-inline: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .nox-shop-card__button {
+      width: 100%;
+      min-height: 48px;
+      padding-inline: 14px;
+      gap: 8px;
+    }
+  }
+</style>
+
 {% schema %}
 {
   "name": "Nox Categories",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Better sleep starts with better bedding."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Thoughtfully made organic cotton bedding that feels soft,\nbreathes naturally, and lasts beautifully."
+    },
+    {
+      "type": "header",
+      "content": "Bed sheets card"
+    },
+    {
+      "type": "image_picker",
+      "id": "sheets_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "sheets_eyebrow",
+      "label": "Eyebrow",
+      "default": "The everyday essential"
+    },
+    {
+      "type": "text",
+      "id": "sheets_heading",
+      "label": "Heading",
+      "default": "Bed Sheets"
+    },
+    {
+      "type": "textarea",
+      "id": "sheets_text",
+      "label": "Description",
+      "default": "Shop individual organic cotton sheets when you only need to refresh the foundation of your bed."
+    },
+    {
+      "type": "text",
+      "id": "sheets_button",
+      "label": "Button label",
+      "default": "Shop Bed Sheets"
+    },
+    {
+      "type": "url",
+      "id": "sheets_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Complete sets card"
+    },
+    {
+      "type": "image_picker",
+      "id": "sets_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "sets_eyebrow",
+      "label": "Eyebrow",
+      "default": "The complete sleep setup"
+    },
+    {
+      "type": "text",
+      "id": "sets_heading",
+      "label": "Heading",
+      "default": "Complete Bedding Sets"
+    },
+    {
+      "type": "textarea",
+      "id": "sets_text",
+      "label": "Description",
+      "default": "Bring home a coordinated set with bed sheets, pillow covers, and complementary bedding essentials."
+    },
+    {
+      "type": "text",
+      "id": "sets_button",
+      "label": "Button label",
+      "default": "Shop Complete Sets"
+    },
+    {
+      "type": "url",
+      "id": "sets_link",
+      "label": "Button link"
+    }
+  ],
   "presets": [
     {
       "name": "Nox Categories"

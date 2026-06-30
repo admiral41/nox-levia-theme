@@ -1,0 +1,47 @@
+<section class="nox-lifestyle-section full-width">
+  <div class="nox-section-container">
+    <div class="nox-section-heading nox-heading-row">
+      <div>
+        <p>Made for real bedrooms</p>
+        <h2>A calmer room starts with what touches your skin.</h2>
+      </div>
+      <span class="nox-editorial-note">Natural texture. Easy layers. Quiet colour.</span>
+    </div>
+
+    <div class="nox-lifestyle-grid">
+      <figure class="nox-lifestyle-main">
+        <img
+          src="{{ 'hero-organic-bedroom.jpg' | asset_url }}"
+          alt="Warm sunlit bedroom with organic cotton bedding"
+          width="1792"
+          height="1024"
+          loading="lazy"
+        >
+        <figcaption>Soft morning layers</figcaption>
+      </figure>
+      <figure>
+        <img
+          src="{{ 'hero-mobile.png' | asset_url }}"
+          alt="Close view of relaxed natural bedding"
+          width="1024"
+          height="1536"
+          loading="lazy"
+        >
+        <figcaption>Designed to be lived in</figcaption>
+      </figure>
+      <div class="nox-lifestyle-quote">
+        <span>Our philosophy</span>
+        <blockquote>“Luxury should feel natural, uncomplicated, and comfortable every day.”</blockquote>
+        <a href="{{ routes.root_url }}pages/our-story">Our story <b aria-hidden="true">→</b></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Lifestyle Grid",
+  "settings": [],
+  "presets": [{ "name": "Lifestyle Grid" }]
+}
+{% endschema %}

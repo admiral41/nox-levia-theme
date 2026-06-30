@@ -1,19 +1,31 @@
 <section class="nox-newsletter-section full-width">
   <div class="nox-newsletter">
     <div>
-      <p>Join Nox Levia</p>
-      <h2>Get bedding care tips, product updates, and Canadian offers.</h2>
+      <p>{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.heading }}</h2>
     </div>
 
     {% form 'customer', class: 'nox-newsletter-form' %}
       <input type="hidden" name="contact[tags]" value="newsletter">
+      <input type="hidden" name="contact[accepts_marketing]" value="true">
       <input
         type="email"
         name="contact[email]"
-        placeholder="Enter your email"
+        placeholder="{{ section.settings.placeholder }}"
+        aria-label="{{ section.settings.placeholder }}"
         required
       >
-      <button type="submit">Subscribe</button>
+      <button type="submit">{{ section.settings.button_label }}</button>
+
+      {% if form.posted_successfully? %}
+        <p class="nox-newsletter-message" role="status">{{ section.settings.success_message }}</p>
+      {% endif %}
+
+      {% if form.errors %}
+        <div class="nox-newsletter-message nox-newsletter-message-error" role="alert">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
     {% endform %}
   </div>
 </section>
@@ -21,7 +33,38 @@
 {% schema %}
 {
   "name": "Nox Newsletter",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Join Nox Levia"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Get bedding care tips, product updates, and Canadian offers."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thanks for subscribing."
+    }
+  ],
   "presets": [
     {
       "name": "Nox Newsletter"

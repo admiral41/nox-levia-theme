@@ -1,130 +1,438 @@
-<section class="nox-product-page full-width">
+{% assign display_title = product.title | replace: 'TANDA', 'TANNA' %}
+{% assign selected_variant = product.selected_or_first_available_variant %}
+{% assign selected_variant_title = selected_variant.title | downcase %}
+{% assign founding_sizes = section.settings.founding_sizes | downcase | split: ',' %}
+{% assign founding_enabled = false %}
+{% if section.settings.founding_product_tag == blank or product.tags contains section.settings.founding_product_tag %}
+  {% assign founding_enabled = true %}
+{% endif %}
+{% assign selected_is_founder = false %}
+{% if founding_enabled %}
+  {% for founding_size in founding_sizes %}
+    {% assign founding_size_name = founding_size | strip %}
+    {% if founding_size_name != blank and selected_variant_title contains founding_size_name %}
+      {% assign selected_is_founder = true %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+<section class="nox-product-page full-width" data-product-section="{{ section.id }}">
   {% render 'nox-breadcrumbs' %}
 
   <div class="nox-product-layout">
     <div class="nox-product-gallery">
       {% if product.featured_image %}
-        {{ product.featured_image | image_url: width: 1200 | image_tag: loading: 'eager', alt: product.title }}
+        {{
+          product.featured_image
+          | image_url: width: 1400
+          | image_tag: loading: 'eager', fetchpriority: 'high', alt: display_title
+        }}
+      {% else %}
+        <img
+          src="{{ 'hero-organic-bedroom.jpg' | asset_url }}"
+          alt="{{ display_title }}"
+          width="1792"
+          height="1024"
+          loading="eager"
+        >
       {% endif %}
 
       {% if product.images.size > 1 %}
         <div class="nox-product-thumbs">
           {% for image in product.images limit: 4 %}
-            {{ image | image_url: width: 240 | image_tag: loading: 'lazy', alt: product.title }}
+            {{ image | image_url: width: 360 | image_tag: loading: 'lazy', alt: display_title }}
           {% endfor %}
         </div>
       {% endif %}
     </div>
 
     <div class="nox-product-summary">
-      <p class="nox-product-eyebrow">Organic Cotton Bedding Canada</p>
-
-      <h1>{{ product.title }}</h1>
-
-      <div class="nox-product-price">
-        {{ product.selected_or_first_available_variant.price | money }}
+      <div class="nox-product-cert-line">
+        <img src="{{ 'gots-certified-logo.webp' | asset_url }}" alt="GOTS certified" width="44" height="44">
+        <span>100% certified organic cotton</span>
       </div>
 
-      {% if product.description != blank %}
-        <div class="nox-product-description">
-          {{ product.description }}
-        </div>
-      {% endif %}
+      <h1>{{ display_title }}</h1>
 
-      {% form 'product', product, class: 'nox-product-form' %}
-        {% if product.has_only_default_variant %}
-          <input
-            type="hidden"
-            name="id"
-            value="{{ product.selected_or_first_available_variant.id }}"
-          >
-        {% else %}
-          <label class="nox-product-label" for="ProductSelect-{{ section.id }}">
-            Options
-          </label>
+      <div class="nox-product-rating">
+        <span aria-hidden="true">★★★★★</span>
+        <a href="#product-reviews">Reviews coming soon</a>
+      </div>
 
-          <select
-            id="ProductSelect-{{ section.id }}"
-            class="nox-product-select"
-            name="id"
-          >
-            {% for variant in product.variants %}
-              <option
-                value="{{ variant.id }}"
-                {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
-                {% unless variant.available %}disabled{% endunless %}
-              >
-                {{ variant.title }} - {{ variant.price | money }}
-                {% unless variant.available %} - Sold out{% endunless %}
-              </option>
-            {% endfor %}
-          </select>
-        {% endif %}
+      <div class="nox-product-price" data-product-price>
+        {{ selected_variant.price | money }}
+      </div>
 
-        <label class="nox-product-label" for="Quantity-{{ section.id }}">
-          Quantity
-        </label>
-
-        <input
-          id="Quantity-{{ section.id }}"
-          class="nox-quantity-input"
-          type="number"
-          name="quantity"
-          value="1"
-          min="1"
-        >
-
-        <button
-          type="submit"
-          name="add"
-          class="nox-add-to-cart"
-          {% unless product.available %}disabled{% endunless %}
-        >
-          {% if product.available %}
-            Add to Cart
+      <div class="nox-product-availability{% if selected_is_founder %} is-prepurchase{% elsif selected_variant.available %} is-available{% else %} is-sold-out{% endif %}" data-product-availability>
+        <span aria-hidden="true"></span>
+        <strong data-availability-label>
+          {% if selected_is_founder %}
+            Sold out for direct purchase · Pre-purchase interest open
+          {% elsif selected_variant.available %}
+            In stock and ready to order
           {% else %}
-            Sold Out
+            Sold out
           {% endif %}
-        </button>
+        </strong>
+      </div>
 
-        {% if product.available %}
-          {{ form | payment_button }}
-        {% endif %}
+      <p class="nox-product-intro">
+        Naturally soft, breathable, and beautifully relaxed—made for a fresher bed and calmer nights.
+      </p>
+
+      {% form 'product', product, class: 'nox-product-form', data-product-form: '' %}
+        {% unless product.has_only_default_variant %}
+          <fieldset class="nox-variant-fieldset">
+            <legend>Choose your size</legend>
+            <div class="nox-size-options">
+              {% for variant in product.variants %}
+                {% assign variant_title_downcase = variant.title | downcase %}
+                {% assign is_preorder = false %}
+                {% if founding_enabled %}
+                  {% for founding_size in founding_sizes %}
+                    {% assign founding_size_name = founding_size | strip %}
+                    {% if founding_size_name != blank and variant_title_downcase contains founding_size_name %}
+                      {% assign is_preorder = true %}
+                      {% break %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+
+                <label class="nox-size-option{% if is_preorder %} is-preorder{% endif %}{% unless variant.available or is_preorder %} is-unavailable{% endunless %}">
+                  <input
+                    type="radio"
+                    name="id"
+                    value="{{ variant.id }}"
+                    data-price="{{ variant.price | money | escape }}"
+                    data-preorder="{{ is_preorder }}"
+                    data-available="{{ variant.available }}"
+                    data-variant-title="{{ variant.title | escape }}"
+                    {% if variant == selected_variant %}checked{% endif %}
+                    {% unless variant.available or is_preorder %}disabled{% endunless %}
+                  >
+                  <span class="nox-size-option-inner">
+                    <strong>{{ variant.title }}</strong>
+                    {% if is_preorder %}
+                      <small>Sold out · Pre-purchase</small>
+                    {% elsif variant.available %}
+                      <small>Available</small>
+                    {% else %}
+                      <small>Sold out</small>
+                    {% endif %}
+                  </span>
+                </label>
+              {% endfor %}
+            </div>
+          </fieldset>
+        {% else %}
+          <input type="hidden" name="id" value="{{ selected_variant.id }}">
+        {% endunless %}
+
+        <div data-standard-purchase{% if selected_is_founder %} hidden{% endif %}>
+          <div class="nox-purchase-row">
+            <div>
+              <label class="nox-product-label" for="Quantity-{{ section.id }}">Quantity</label>
+              <input
+                id="Quantity-{{ section.id }}"
+                class="nox-quantity-input"
+                type="number"
+                name="quantity"
+                value="1"
+                min="1"
+              >
+            </div>
+            <button
+              type="submit"
+              name="add"
+              class="nox-add-to-cart"
+              data-add-to-cart
+              {% unless product.available %}disabled{% endunless %}
+            >
+              {% if product.available %}Add to cart{% else %}Sold out{% endif %}
+            </button>
+          </div>
+
+          {% if product.available %}
+            <div class="nox-dynamic-checkout">{{ form | payment_button }}</div>
+          {% endif %}
+        </div>
       {% endform %}
 
-      <div class="nox-product-trust">
-        <div>
-          <strong>100% Organic Cotton</strong>
-          <span>Soft, breathable, and naturally comfortable.</span>
+      <div class="nox-founding-access" data-founding-access{% unless selected_is_founder %} hidden{% endunless %}>
+        <div class="nox-founding-access__status">
+          <span>Currently sold out</span>
+          <strong>Pre-purchase interest is open</strong>
         </div>
+        <p class="nox-founding-access__eyebrow">{{ section.settings.founding_eyebrow }}</p>
+        <h2>{{ section.settings.founding_heading }}</h2>
+        <div class="nox-founding-access__copy">{{ section.settings.founding_text }}</div>
 
-        <div>
-          <strong>Ships Across Canada</strong>
-          <span>Made for Canadian homes and everyday comfort.</span>
-        </div>
+        {% form 'customer', class: 'nox-founding-access__form' %}
+          <input
+            type="hidden"
+            name="contact[tags]"
+            value="founding-access, product-interest, {{ product.handle }}, {{ selected_variant.title | handleize }}"
+            data-founding-tags
+          >
+          <input
+            type="hidden"
+            name="contact[note]"
+            value="{{ display_title | escape }} - {{ selected_variant.title | escape }}"
+            data-founding-note
+          >
+          <label for="FoundingEmail-{{ section.id }}">Email address</label>
+          <div>
+            <input
+              id="FoundingEmail-{{ section.id }}"
+              type="email"
+              name="contact[email]"
+              value="{{ form.email }}"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
+            <button type="submit">{{ section.settings.founding_button }}</button>
+          </div>
+          <small>{{ section.settings.founding_note }}</small>
 
-        <div>
-          <strong>Easy 30-Day Returns</strong>
-          <span>Simple support if it is not the right fit.</span>
-        </div>
+          {% if form.posted_successfully? %}
+            <p class="nox-founding-access__success" tabindex="-1">
+              You are in. We will contact you when your size is ready for its founding release.
+            </p>
+          {% endif %}
+
+          {% if form.errors %}
+            <div class="nox-founding-access__error">{{ form.errors | default_errors }}</div>
+          {% endif %}
+        {% endform %}
       </div>
 
-      <div class="nox-product-links">
-        <a href="{{ routes.root_url }}blogs/news/how-to-wash-organic-cotton-sheets">How to wash organic cotton sheets</a>
-        <a href="{{ routes.root_url }}pages/about-us">Why choose Nox Levia?</a>
+      <div class="nox-product-benefits">
+        <div><span aria-hidden="true">✓</span><p><strong>GOTS Certified</strong> Thoughtfully verified from fibre to finish.</p></div>
+        <div><span aria-hidden="true">✓</span><p><strong>Breathable &amp; skin-friendly</strong> Naturally comfortable through every season.</p></div>
+        <div><span aria-hidden="true">✓</span><p><strong>Ethically grown</strong> Organic material with people and planet considered.</p></div>
       </div>
     </div>
   </div>
+
+  <div class="nox-product-detail-nav" aria-label="Product information">
+    <a href="#overview">Overview</a>
+    <a href="#material-feel">Material &amp; Feel</a>
+    <a href="#whats-included">What's Included</a>
+    <a href="#size-guide">Size Guide</a>
+    <a href="#care">Care</a>
+    <a href="#certifications">Certifications</a>
+    <a href="#product-reviews">Reviews</a>
+    <a href="#faq">FAQ</a>
+  </div>
+
+  <div class="nox-product-story">
+    <section id="overview" class="nox-product-story-lead">
+      <p class="nox-kicker">Meet TANNA</p>
+      <h2>Everyday luxury, woven naturally.</h2>
+      <div>
+        <p>
+          Meet TANNA, our 100% GOTS-certified organic cotton sheet set designed for naturally soft, breathable comfort.
+          Woven from premium organic cotton, TANNA feels smooth against the skin while allowing airflow through the
+          night, making it ideal for warm sleepers and year-round comfort.
+        </p>
+        <p>
+          The fabric is gentle, durable, and made without harsh chemical finishes, giving your bedroom a cleaner and
+          calmer sleep environment. With every wash, the cotton becomes softer and more lived-in while keeping its
+          natural strength.
+        </p>
+        <p>
+          Designed for everyday luxury, TANNA brings together comfort, sustainability, and timeless simplicity—perfect
+          for anyone who wants bedding that feels fresh, looks beautiful, and supports better rest.
+        </p>
+      </div>
+    </section>
+
+    <div class="nox-product-info-grid">
+      <section id="material-feel">
+        <span>01</span>
+        <h3>Material &amp; Feel</h3>
+        <p>100% GOTS-certified organic cotton with a smooth, breathable hand feel that relaxes and softens over time.</p>
+      </section>
+      <section id="whats-included">
+        <span>02</span>
+        <h3>What's Included</h3>
+        <p>Set contents may vary by size. Confirm the exact fitted sheet, flat sheet, and pillowcase count in your product setup.</p>
+      </section>
+      <section id="size-guide">
+        <span>03</span>
+        <h3>Size Guide</h3>
+        <p>Twin, Queen, and King sizing is available. Add exact finished dimensions in Shopify metafields before launch.</p>
+      </section>
+    </div>
+
+    <section id="care" class="nox-product-care">
+      <div>
+        <p class="nox-kicker">Care instructions</p>
+        <h2>Keep natural cotton at its best.</h2>
+      </div>
+      <div>
+        <h3>Cotton</h3>
+        <ul>
+          <li>Machine wash in cool water using a mild detergent</li>
+          <li>Wash with items similar in color and fabric</li>
+          <li>Avoid washing with items that may have zippers or hooks that could cause pilling</li>
+          <li>Tumble dry on low heat to preserve the natural fibers</li>
+          <li>Avoid chlorine bleach, benzoyl peroxide, and other harsh chemicals</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="certifications" class="nox-product-certification">
+      <div class="nox-gots-seal">
+        <img src="{{ 'gots-certified-logo.webp' | asset_url }}" alt="GOTS certified" width="190" height="190" loading="lazy">
+      </div>
+      <div>
+        <p class="nox-kicker">Certified organic cotton</p>
+        <h2>Why GOTS matters.</h2>
+        <p>
+          Certified by the Global Organic Textile Standard, our organic cotton is made with care for your skin, your
+          sleep, and the planet—from organic fibre integrity to safer textile processing.
+        </p>
+        <a href="{{ routes.root_url }}pages/gots-certification" class="nox-text-link">Explore GOTS certification</a>
+      </div>
+    </section>
+
+    <section id="product-reviews" class="nox-product-reviews">
+      <p class="nox-kicker">Loved for softer sleep</p>
+      <h2>Verified customer reviews will live here.</h2>
+      <p>
+        Connect Judge.me, Loox, or Yotpo to publish real ratings, customer names, review text, and purchased products.
+        No demo review is presented as a real customer claim.
+      </p>
+    </section>
+
+    <section id="faq" class="nox-product-faq">
+      <div>
+        <p class="nox-kicker">Good to know</p>
+        <h2>Frequently asked questions.</h2>
+      </div>
+      <div>
+        <details open>
+          <summary>Is TANNA suitable for warm sleepers?</summary>
+          <p>Yes. Organic cotton is naturally breathable and supports airflow for comfortable year-round sleep.</p>
+        </details>
+        <details>
+          <summary>Will the sheets soften over time?</summary>
+          <p>Yes. The cotton develops a softer, more relaxed feel with washing while retaining its natural strength.</p>
+        </details>
+        <details>
+          <summary>How does pre-purchase interest work?</summary>
+          <p>Twin and King remain sold out for direct checkout. Enter your email to register interest and receive priority notice when the next production release becomes available. No payment is collected through this form.</p>
+        </details>
+        <details>
+          <summary>What does GOTS certification cover?</summary>
+          <p>GOTS includes organic fibre requirements plus environmental and social criteria through textile processing.</p>
+        </details>
+      </div>
+    </section>
+  </div>
 </section>
+
+<script>
+  (() => {
+    const section = document.querySelector('[data-product-section="{{ section.id }}"]');
+    if (!section) return;
+
+    const radios = section.querySelectorAll('.nox-size-option input[type="radio"]');
+    const button = section.querySelector('[data-add-to-cart]');
+    const price = section.querySelector('[data-product-price]');
+    const standardPurchase = section.querySelector('[data-standard-purchase]');
+    const foundingAccess = section.querySelector('[data-founding-access]');
+    const foundingNote = section.querySelector('[data-founding-note]');
+    const foundingTags = section.querySelector('[data-founding-tags]');
+    const availability = section.querySelector('[data-product-availability]');
+    const availabilityLabel = section.querySelector('[data-availability-label]');
+    const productTitle = {{ display_title | json }};
+
+    const updateVariantState = (input) => {
+      if (!input) return;
+      const preorder = input.dataset.preorder === 'true';
+      const available = input.dataset.available === 'true';
+      if (price && input.dataset.price) price.textContent = input.dataset.price;
+      if (standardPurchase) standardPurchase.hidden = preorder;
+      if (foundingAccess) foundingAccess.hidden = !preorder;
+      if (availability) {
+        availability.classList.toggle('is-prepurchase', preorder);
+        availability.classList.toggle('is-available', !preorder && available);
+        availability.classList.toggle('is-sold-out', !preorder && !available);
+      }
+      if (availabilityLabel) {
+        availabilityLabel.textContent = preorder
+          ? 'Sold out for direct purchase · Pre-purchase interest open'
+          : (available ? 'In stock and ready to order' : 'Sold out');
+      }
+      if (foundingNote) foundingNote.value = `${productTitle} - ${input.dataset.variantTitle || ''}`;
+      if (foundingTags) {
+        const sizeTag = (input.dataset.variantTitle || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        foundingTags.value = `founding-access, product-interest, {{ product.handle }}, ${sizeTag}`;
+      }
+      if (button) {
+        button.disabled = !available;
+        button.textContent = available ? 'Add to cart' : 'Sold out';
+      }
+    };
+
+    radios.forEach((radio) => radio.addEventListener('change', () => updateVariantState(radio)));
+    updateVariantState(section.querySelector('.nox-size-option input:checked'));
+  })();
+</script>
 
 {% schema %}
 {
   "name": "Nox Main Product",
-  "settings": [],
-  "presets": [
+  "settings": [
     {
-      "name": "Nox Main Product"
+      "type": "text",
+      "id": "founding_product_tag",
+      "label": "Required product tag",
+      "info": "Only products with this Shopify tag use the pre-purchase flow. Leave blank to apply it to every product.",
+      "default": "founding-prepurchase"
+    },
+    {
+      "type": "text",
+      "id": "founding_sizes",
+      "label": "Founding pre-purchase sizes",
+      "info": "Comma-separated variant names, for example: Twin, King",
+      "default": "Twin, King"
+    },
+    {
+      "type": "text",
+      "id": "founding_eyebrow",
+      "label": "Pre-purchase eyebrow",
+      "default": "Limited founding release"
+    },
+    {
+      "type": "text",
+      "id": "founding_heading",
+      "label": "Pre-purchase heading",
+      "default": "Become part of the next TANNA release."
+    },
+    {
+      "type": "richtext",
+      "id": "founding_text",
+      "label": "Pre-purchase description",
+      "default": "<p>Twin and King are currently sold out for direct checkout. Register your interest in the next production release and receive priority notice before general availability.</p>"
+    },
+    {
+      "type": "text",
+      "id": "founding_button",
+      "label": "Email button label",
+      "default": "Request first access"
+    },
+    {
+      "type": "text",
+      "id": "founding_note",
+      "label": "Email form note",
+      "default": "No payment today. Just priority access when this size enters production."
     }
-  ]
+  ],
+  "presets": [{ "name": "Nox Main Product" }]
 }
 {% endschema %}

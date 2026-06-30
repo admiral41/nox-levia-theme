@@ -811,8 +811,8 @@ aside {
 
 @media screen and (max-width: 749px) {
   .nox-hero-section {
-    height: 520px;
-    min-height: 520px;
+    height: auto;
+    min-height: clamp(540px, 88svh, 640px);
   }
 
   .nox-hero-bg img {
@@ -831,7 +831,9 @@ aside {
 
   .nox-hero-inner {
     align-items: flex-end;
-    padding: 42px 16px 34px;
+    height: auto;
+    min-height: inherit;
+    padding: 42px 16px 38px;
   }
 
   .nox-hero-content {
@@ -861,10 +863,10 @@ aside {
   }
 
   .nox-hero-actions {
-    margin-top: 22px;
+    margin-top: 24px;
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: 12px;
   }
 
   .nox-hero-btn {
@@ -876,12 +878,11 @@ aside {
 
 @media screen and (max-width: 480px) {
   .nox-hero-section {
-    height: 500px;
-    min-height: 500px;
+    min-height: clamp(520px, 90svh, 620px);
   }
 
   .nox-hero-inner {
-    padding: 40px 14px 30px;
+    padding: 40px 14px 34px;
   }
 
   .nox-hero h1 {
@@ -895,12 +896,11 @@ aside {
 
 @media screen and (max-width: 390px) {
   .nox-hero-section {
-    height: 480px;
-    min-height: 480px;
+    min-height: clamp(510px, 92svh, 600px);
   }
 
   .nox-hero-inner {
-    padding: 36px 12px 28px;
+    padding: 36px 12px 32px;
   }
 
   .nox-hero-eyebrow {
@@ -919,18 +919,17 @@ aside {
   }
 
   .nox-hero-actions {
-    margin-top: 18px;
+    margin-top: 22px;
   }
 }
 
 @media screen and (max-width: 340px) {
   .nox-hero-section {
-    height: 460px;
-    min-height: 460px;
+    min-height: 500px;
   }
 
   .nox-hero-inner {
-    padding: 32px 10px 24px;
+    padding: 32px 10px 30px;
   }
 
   .nox-hero h1 {
@@ -1306,6 +1305,7 @@ aside {
 
 .nox-newsletter-form {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   background: rgba(255, 255, 255, 0.1);
   padding: 8px;
@@ -1339,6 +1339,24 @@ aside {
   font-weight: 850;
   cursor: pointer;
   white-space: nowrap;
+}
+
+.nox-newsletter-message {
+  flex: 0 0 100%;
+  margin: 0;
+  padding: 4px 14px 2px;
+  color: #f2ddbc;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.nox-newsletter-message-error {
+  color: #ffd6d6;
+}
+
+.nox-newsletter-message-error ul {
+  margin: 0;
+  padding-left: 18px;
 }
 
 /* Footer */

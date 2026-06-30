@@ -3,14 +3,9 @@
     "main": {
       "type": "nox-blogs-landing",
       "settings": {}
-    },
-    "newsletter": {
-      "type": "nox-newsletter",
-      "settings": {}
     }
   },
   "order": [
-    "main",
-    "newsletter"
+    "main"
   ]
 }
